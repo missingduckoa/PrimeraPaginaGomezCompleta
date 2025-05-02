@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Acerca de mí{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Acerca de mí 🐶</h2>
+            </div>
+            <div class="card-body">
+                <h3>¿Quien soy?</h3>
+                <p class="lead">
+                    <p>Mi nombre es Sofía, tengo 16 años y soy la creadora de este proyecto. Este proyecto fue desarrollado como parte de mi proyecto final.
+Espero que disfrutes explorando las funcionalidades de esta web y sepas que la adopción es la mejor opción
+                </p>
+
+                <h3>¿Cuál es mi visión?</h3>
+                <p>
+                    Aspiro a promover una cultura 
+                    de respeto y cuidado hacia los animales, donde cada mascota encuentre un hogar lleno de amor.
+                </p>
+
+                <h3> Objetivos</h3>
+                <ul>
+                    <li>Facilitar el proceso de adopción de mascotas a través de una plataforma segura y accesible.</li>
+                    <li>Educar sobre la tenencia responsable de mascotas y los beneficios de la adopción.</li>
+                    <li>Colaborar con refugios y organizaciones de protección animal para ampliar nuestro alcance.</li>
+                    <li>Reducir el número de animales abandonados mediante campañas de concienciación.</li>
+                    <li>Crear una comunidad de amantes de los animales que comparta experiencias y apoyo mutuo.</li>
+                </ul>
+
+                <div class="text-center mt-4">
+                    <p>¿Tenes preguntas o queres colaborar?</p>
+                    <a href="{% url 'mascota:contacto' %}" class="btn btn-primary">Contáctanos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

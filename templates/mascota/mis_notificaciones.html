@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load notificacion_tags %}
+
+{% block title %}Mis Notificaciones{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Mis Notificaciones</h1>
+
+{% if notificaciones %}
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <span class="badge bg-primary">Total: {{ notificaciones.count }}</span>
+            <span class="badge bg-warning">No leídas: {{ no_leidas_count }}</span>
+        </div>
+        <a href="{% url 'mascota:marcar_todas_leidas' %}" class="btn btn-sm btn-secondary">
+            <i class="fas fa-check-double me-1"></i> Marcar todas como leídas
+        </a>
+    </div>
+
+    <div class="list-group">
+        {% for notificacion in notificaciones %}
+            <a href="{% url 'mascota:marcar_notificacion_leida' notificacion.id %}" 
+               class="list-group-item list-group-item-action {% if not notificacion.leida %}list-group-item-primary{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ notificacion.get_tipo_display }}</h5>
+                    <small>{{ notificacion.fecha_creacion|date:"d/m/Y H:i" }}</small>
+                </div>
+                <p class="mb-1">{{ notificacion.mensaje }}</p>
+                <small>
+                    {% if not notificacion.leida %}
+                        <span class="badge rounded-pill bg-primary">No leída</span>
+                    {% endif %}
+                    <span class="text-muted">Haz clic para marcar como leída</span>
+                </small>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i> No tienes notificaciones
+    </div>
+{% endif %}
+{% endblock %}

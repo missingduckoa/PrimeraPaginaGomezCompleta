@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load mascota_filters %}
+
+{% block title %}Eliminar Solicitud{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h2 class="mb-0">Eliminar Solicitud</h2>
+            </div>
+            <div class="card-body">
+                <p>¿Estás seguro de que deseas eliminar tu solicitud para adoptar a <strong>{{ solicitud.mascota.nombre }}</strong>?</p>
+                <p>Esta acción no se puede deshacer.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">Eliminar Solicitud</button>
+                        <a href="{% url 'mascota:mis_solicitudes' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

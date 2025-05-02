@@ -1,0 +1,59 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block title %}Confirmar eliminación{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar eliminación</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        ¿Estás seguro que deseas eliminar esta {{ tipo }}?
+                    </p>
+                    
+                    {% if tipo == 'publicación' %}
+                        <div class="alert alert-warning">
+                            <strong>Nombre:</strong> {{ objeto.nombre }}<br>
+                            <strong>Tipo:</strong> {{ objeto.tipo }}<br>
+                            <strong>Usuario:</strong> {{ objeto.usuario.username }}
+                        </div>
+                    {% elif tipo == 'usuario' %}
+                        <div class="alert alert-warning">
+                            <strong>Username:</strong> {{ objeto.username }}<br>
+                            <strong>Email:</strong> {{ objeto.email }}<br>
+                            <strong>Fecha de registro:</strong> {{ objeto.date_joined|date:"d/m/Y" }}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>¡Atención!</strong> Esta acción no se puede deshacer.
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            {% if tipo == 'publicación' %}
+                                <a href="{% url 'admin_panel:listar_publicaciones' %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Cancelar
+                                </a>
+                            {% elif tipo == 'usuario' %}
+                                <a href="{% url 'admin_panel:listar_usuarios' %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>Cancelar
+                                </a>
+                            {% endif %}
+                            
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-2"></i>Eliminar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Panel de Administración - Mascoteros.net{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ request.scheme }}://{{ request.get_host }}/static/admin_panel/css/admin_styles.css">
+{% endblock %}
+
+{% block content %}
+<div class="admin-panel py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Menú lateral de admin -->
+            <div class="col-md-3 col-lg-2 mb-4 mb-md-0">
+                <div class="sidebar py-3 px-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}" 
+                               href="{% url 'admin_panel:dashboard' %}">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'publicaciones' %}active{% endif %}" 
+                               href="{% url 'admin_panel:listar_publicaciones' %}">
+                                <i class="fas fa-list me-2"></i>Publicaciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'usuarios' %}active{% endif %}" 
+                               href="{% url 'admin_panel:listar_usuarios' %}">
+                                <i class="fas fa-users me-2"></i>Usuarios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if active_tab == 'reportes' %}active{% endif %}" 
+                               href="{% url 'admin_panel:listar_reportes' %}">
+                                <i class="fas fa-flag me-2"></i>Reportes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Contenido principal -->
+            <div class="col-md-9 col-lg-10">
+                {% block admin_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js para los gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Scripts personalizados del panel de administración -->
+<script src="{{ request.scheme }}://{{ request.get_host }}/static/admin_panel/js/admin_scripts.js"></script>
+<!-- Bloque para scripts específicos de cada página -->
+{% block admin_scripts %}{% endblock %}
+{% endblock %}

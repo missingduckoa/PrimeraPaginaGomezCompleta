@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load mascota_filters %}
+{% block title %}Solicitar adopción de {{ mascota.nombre }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0">Solicitar la adopción de {{ mascota.nombre }} 🐶</h2>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        {% if mascota.foto %}
+                            <img src="{{ mascota.foto.url }}" class="img-fluid rounded" alt="{{ mascota.nombre }}">
+                        {% else %}
+                            <div class="bg-secondary text-white text-center p-4 rounded">Sin foto</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <h4>{{ mascota.nombre }}</h4>
+                        <p><strong>Tipo:</strong> {{ mascota.tipo }}</p>
+                        <p><strong>Raza:</strong> {{ mascota.raza }}</p>
+                        <p><strong>Edad:</strong> 
+                            {% if mascota.edad < 12 %}
+                                {{ mascota.edad }} meses
+                            {% else %}
+                                {{ mascota.edad|divisibleby:12 }} año(s) y {{ mascota.edad|mod:12 }} mes(es)
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field.errors }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text text-muted">{{ field.help_text }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Enviar solicitud 🐶</button>
+                        <a href="{% url 'mascota:detalle_mascota' mascota.pk %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

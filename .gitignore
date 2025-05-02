@@ -1,0 +1,17 @@
+!.gitignore
+
+# Ignorar archivos y carpetas innecesarios
+__pycache__/
+db.sqlite3
+media/
+
+# Ignorar entornos virtuales
+env/
+venv/
+
+# Ignorar configuraciones específicas del sistema operativo
+*.log
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db

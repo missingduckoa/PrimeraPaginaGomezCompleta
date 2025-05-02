@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load mascota_filters %}
+{% block title %}Mascotas en Adopción{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Mascotas en Adopción</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Filtrar por tipo</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'mascota:lista_mascotas' %}" class="btn {% if not request.GET.tipo %}btn-primary{% else %}btn-outline-primary{% endif %}">Todos</a>
+                    {% for tipo in tipos %}
+                        <a href="{% url 'mascota:lista_mascotas' %}?tipo={{ tipo.id }}" class="btn {% if request.GET.tipo|add:'0' == tipo.id %}btn-primary{% else %}btn-outline-primary{% endif %}">{{ tipo.nombre }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if mascotas %}
+        {% for mascota in mascotas %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if mascota.foto %}
+                        <img src="{{ mascota.foto.url }}" class="card-img-top" alt="{{ mascota.nombre }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white text-center p-5" style="height: 250px;">
+                            <span class="align-middle">Sin foto</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mascota.nombre }}</h5>
+                        <p class="badge bg-info text-dark">{{ mascota.get_sexo_display }}</p>
+                        <p class="card-text"><strong>Tipo:</strong> {{ mascota.tipo }}</p>
+                        <p class="card-text"><strong>Raza:</strong> {{ mascota.raza }}</p>
+                        <p class="card-text"><strong>Edad:</strong>
+                            {% if mascota.edad < 12 %}
+                                {{ mascota.edad }} meses
+                            {% else %}
+                                {{ mascota.edad|divisibleby:12 }} año(s) y {{ mascota.edad|mod:12 }} mes(es)
+                            {% endif %}
+                        </p>
+                        <p class="card-text">{{ mascota.descripcion|truncatechars:150 }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'mascota:detalle_mascota' mascota.pk %}" class="btn btn-primary w-100">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">No hay mascotas disponibles con estos criterios.</div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

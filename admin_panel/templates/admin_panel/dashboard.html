@@ -1,0 +1,165 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% load static %}
+{% block title %}Panel de Administración - Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card card-stats bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="count">{{ total_mascotas }}</div>
+                        <div class="label">Total Mascotas</div>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between bg-primary border-top-0">
+                <a class="text-white" href="{% url 'admin_panel:listar_publicaciones' %}">Ver detalles</a>
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card card-stats bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="count">{{ total_usuarios }}</div>
+                        <div class="label">Total Usuarios</div>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between bg-success border-top-0">
+                <a class="text-white" href="{% url 'admin_panel:listar_usuarios' %}">Ver detalles</a>
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card card-stats bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="count">{{ reportes_pendientes }}</div>
+                        <div class="label">Reportes Pendientes</div>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between bg-danger border-top-0">
+                <a class="text-white" href="{% url 'admin_panel:listar_reportes' %}">Ver detalles</a>
+                <i class="fas fa-angle-right"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráficos -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Mascotas por tipo</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="mascotasPorTipoChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Publicaciones por mes</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="publicacionesPorMesChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block admin_scripts %}
+<script>
+    // Datos de prueba estáticos (si no hay datos)
+    const tiposData = ['Perro', 'Gato', 'Otro'];
+    const totalesData = [1, 1, 1];
+    
+    const mesesData = ['Ene 2025', 'Feb 2025', 'Mar 2025', 'Abr 2025'];
+    const totalesMesData = [0, 0, 0, 1];
+    
+    try {
+        // Gráfico de mascotas por tipo
+        const ctxTipos = document.getElementById('mascotasPorTipoChart').getContext('2d');
+        const tiposChart = new Chart(ctxTipos, {
+            type: 'pie',
+            data: {
+                labels: tiposData,
+                datasets: [{
+                    data: totalesData,
+                    backgroundColor: [
+                        '#0d6efd',
+                        '#fd7e14',
+                        '#198754',
+                        '#dc3545',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de publicaciones por mes
+        const ctxMeses = document.getElementById('publicacionesPorMesChart').getContext('2d');
+        const mesesChart = new Chart(ctxMeses, {
+            type: 'bar',
+            data: {
+                labels: mesesData,
+                datasets: [{
+                    label: 'Publicaciones',
+                    data: totalesMesData,
+                    backgroundColor: '#0d6efd',
+                    borderColor: '#0d6efd',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    } catch (e) {
+        console.error("Error en gráficos:", e);
+    }
+</script>
+{% endblock %}

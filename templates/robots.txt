@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Allow: /
+
+Sitemap: https://mascoteros.net/sitemap.xml

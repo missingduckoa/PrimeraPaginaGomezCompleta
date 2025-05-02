@@ -1,0 +1,214 @@
+/* Estilos para el panel de administración */
+
+/* Variables de colores - reutilizando las del sitio principal */
+:root {
+    --admin-primary: var(--primary-color, #0d6efd);
+    --admin-secondary: var(--secondary-color, #6c757d);
+    --admin-success: var(--success-color, #198754);
+    --admin-danger: var(--danger-color, #dc3545);
+    --admin-warning: var(--warning-color, #ffc107);
+    --admin-info: var(--info-color, #0dcaf0);
+    --admin-light: var(--light-color, #f8f9fa);
+    --admin-dark: var(--dark-color, #212529);
+}
+
+/* Estilos generales del panel */
+.admin-panel {
+    background-color: #f5f7fa;
+    min-height: calc(100vh - 56px);
+}
+
+/* Estilos para el sidebar */
+.sidebar {
+    background-color: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 8px;
+    position: sticky;
+    top: 1rem;
+}
+
+.sidebar .nav-link {
+    color: var(--admin-dark);
+    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin: 0.3rem 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(13, 110, 253, 0.08);
+    color: var(--admin-primary);
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--admin-primary);
+    color: white;
+}
+
+.sidebar .nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* Estilos para las tarjetas */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    font-weight: 600;
+}
+
+.card-stats {
+    padding: 1.5rem;
+}
+
+.card-stats .icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.card-stats .count {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.card-stats .label {
+    color: var(--admin-secondary);
+    font-weight: 500;
+}
+
+/* Estilos para las tablas */
+.table {
+    vertical-align: middle;
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--admin-dark);
+    border-top: none;
+    background-color: rgba(13, 110, 253, 0.03);
+}
+
+.table td {
+    padding: 0.75rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.03);
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Estilos para filtros */
+.filter-form {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.filter-form .form-label {
+    font-weight: 500;
+}
+
+.filter-form .form-control,
+.filter-form .form-select {
+    border-radius: 6px;
+}
+
+/* Estilos para la paginación */
+.pagination {
+    margin-top: 1.5rem;
+}
+
+.pagination .page-link {
+    color: var(--admin-primary);
+    padding: 0.5rem 0.75rem;
+    min-width: 38px;
+    text-align: center;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--admin-primary);
+    border-color: var(--admin-primary);
+}
+
+/* Estilos para badges */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+}
+
+/* Estilos para botones de acción en tablas */
+.btn-action {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-right: 0.25rem;
+}
+
+.btn-action:last-child {
+    margin-right: 0;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-bottom: 1.5rem;
+        position: static;
+    }
+    
+    .sidebar .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    
+    .sidebar .nav-link {
+        white-space: nowrap;
+    }
+}
+
+/* Animaciones y efectos */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.scale-in {
+    animation: scaleIn 0.3s ease-in;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

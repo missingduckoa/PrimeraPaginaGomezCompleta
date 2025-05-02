@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Mascoteros.net{% endblock %}
+{% block content %}
+<div class="jumbotron bg-light p-4 p-md-5 rounded mb-4 text-center">
+    <h1 class="display-4">Encuentra a tu compañero ideal</h1>
+    <p class="lead">Adopta una mascota y cambia dos vidas: la suya y la tuya.</p>
+    <hr class="my-4">
+    <p>Miles de animales están esperando un hogar. ¿Les darás una oportunidad?</p>
+    
+    <!-- Modificación: botones centrados con ancho limitado -->
+    <div class="d-flex flex-column align-items-center" style="max-width: 350px; margin: 0 auto;">
+        <a class="btn btn-primary btn-lg w-100 mb-3" href="{% url 'mascota:lista_mascotas' %}" role="button">
+            <i class="fas fa-paw me-2"></i>Ver mascotas disponibles
+        </a>
+        {% if user.is_authenticated %}
+        <a class="btn btn-register btn-lg w-100" href="{% url 'mascota:publicar_mascota' %}" role="button">
+            <i class="fas fa-plus-circle me-2"></i>Dar en adopción
+        </a>
+        {% else %}
+        <a class="btn btn-secondary btn-lg w-100" href="{% url 'mascota:registro' %}" role="button" style="margin-top: 10px;">
+            <i class="fas fa-user-plus me-2"></i>Regístrate para publicar
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<h2 class="mb-4 section-title">Mascotas en Adopción</h2>
+
+<div class="row">
+    {% if mascotas_recientes %}
+        {% for mascota in mascotas_recientes %}
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if mascota.foto %}
+                        <img src="{{ mascota.foto.url }}" class="card-img-top" alt="{{ mascota.nombre }}">
+                    {% else %}
+                        <div class="bg-secondary text-white text-center p-5" style="height: 200px;">
+                            <span class="align-middle">Sin foto</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mascota.nombre }}</h5>
+                        <p class="card-text text-muted">{{ mascota.tipo }} - {{ mascota.raza }}</p>
+                        <p class="card-text text-truncate-3">{{ mascota.descripcion|truncatechars:100 }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'mascota:detalle_mascota' mascota.slug %}" class="btn btn-primary w-100">
+                            <i class="fas fa-eye me-1"></i> Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i> No hay mascotas disponibles en este momento.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="text-center mt-4 mb-3">
+    <a href="{% url 'mascota:lista_mascotas' %}" class="btn btn-outline-primary">
+        <i class="fas fa-list me-1"></i> Ver todas las mascotas
+    </a>
+</div>
+{% endblock %}

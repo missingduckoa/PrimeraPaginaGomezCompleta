@@ -1,0 +1,66 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block title %}Panel de Administración - Reportes{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Reportes de usuarios</h1>
+</div>
+
+<!-- Tabla de reportes -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mascota</th>
+                        <th>Reportado por</th>
+                        <th>Motivo</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reporte in reportes %}
+                    <tr class="{% if not reporte.revisado %}table-warning{% endif %}">
+                        <td>{{ reporte.id }}</td>
+                        <td>
+                            <a href="{% url 'mascota:detalle_mascota' reporte.mascota.pk %}">
+                                {{ reporte.mascota.nombre }}
+                            </a>
+                        </td>
+                        <td>{{ reporte.usuario_reportador.username }}</td>
+                        <td>{{ reporte.get_motivo_display }}</td>
+                        <td>{{ reporte.fecha_reporte|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if reporte.revisado %}
+                                <span class="badge bg-success">Revisado</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not reporte.revisado %}
+                                <a href="{% url 'admin_panel:marcar_reporte_revisado' reporte.pk %}" class="btn btn-sm btn-success" title="Marcar como revisado">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'admin_panel:eliminar_publicacion' reporte.mascota.pk %}" class="btn btn-sm btn-danger" title="Eliminar publicación">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No hay reportes</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% include 'admin_panel/includes/pagination.html' with page_obj=reportes %}
+</div>
+{% endblock %}

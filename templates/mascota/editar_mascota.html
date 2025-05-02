@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load mascota_filters %}
+
+{% block title %}Editar {{ mascota.nombre }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Editar Mascota: {{ mascota.nombre }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field.errors }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text text-muted">{{ field.help_text }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    {% if mascota.foto %}
+                        <div class="mb-3">
+                            <p><strong>Foto actual:</strong></p>
+                            <img src="{{ mascota.foto.url }}" alt="{{ mascota.nombre }}" class="img-thumbnail" style="max-height: 200px;">
+                            <div class="form-text text-muted">Si subes una nueva foto, reemplazará la actual.</div>
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <a href="{% url 'mascota:mis_publicaciones' %}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

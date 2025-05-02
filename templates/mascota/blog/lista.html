@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - Adopción de Mascotas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Blog de Mascotas</h1>
+    
+    <div class="row">
+        <!-- Sidebar para categorías -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Categorías</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'mascota:blog_lista' %}" class="list-group-item {% if not categoria_actual %}active{% endif %}">
+                        Todas
+                    </a>
+                    {% for categoria in categorias %}
+                        <a href="{% url 'mascota:blog_categoria' categoria.slug %}" 
+                        class="list-group-item {% if categoria_actual == categoria.slug %}active{% endif %}">
+                            {{ categoria.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Listado de artículos -->
+        <div class="col-md-9">
+            {% if blogs %}
+                <div class="row">
+                    {% for blog in blogs %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                {% if blog.image %}
+                                    <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ blog.title }}</h5>
+                                    <p class="card-text">{{ blog.subtitle|truncatewords:20 }}</p>
+                                    <a href="{% url 'mascota:blog_detalle' blog.id %}" class="btn btn-primary">Leer más</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No hay artículos disponibles.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

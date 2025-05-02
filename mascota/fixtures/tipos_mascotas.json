@@ -1,0 +1,51 @@
+[
+  {
+    "model": "mascota.tipomascota",
+    "pk": 1,
+    "fields": {
+      "nombre": "Perro"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 2,
+    "fields": {
+      "nombre": "Gato"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 3,
+    "fields": {
+      "nombre": "Ave"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 4,
+    "fields": {
+      "nombre": "Conejo"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 5,
+    "fields": {
+      "nombre": "Hámster"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 6,
+    "fields": {
+      "nombre": "Pez"
+    }
+  },
+  {
+    "model": "mascota.tipomascota",
+    "pk": 7,
+    "fields": {
+      "nombre": "Otro"
+    }
+  }
+]

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis Publicaciones{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Mis Publicaciones</h1>
+
+{% if mascotas %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Mascota</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Fecha de publicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mascota in mascotas %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if mascota.foto %}
+                                    <img src="{{ mascota.foto.url }}" alt="{{ mascota.nombre }}" class="me-2 rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary text-white text-center rounded me-2" style="width: 50px; height: 50px;">
+                                        <span class="align-middle">-</span>
+                                    </div>
+                                {% endif %}
+                                <div>{{ mascota.nombre }}</div>
+                            </div>
+                        </td>
+                        <td>{{ mascota.tipo }}</td>
+                        <td>
+                            {% if mascota.estado == 'disponible' %}
+                                <span class="badge bg-success">Disponible</span>
+                            {% elif mascota.estado == 'en_proceso' %}
+                                <span class="badge bg-warning text-dark">En proceso</span>
+                            {% elif mascota.estado == 'adoptado' %}
+                                <span class="badge bg-secondary">Adoptado</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ mascota.fecha_publicacion|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            <a href="{% url 'mascota:detalle_mascota' mascota.slug %}" class="btn btn-sm btn-primary">Ver</a>
+                            {% if mascota.estado != 'adoptado' %}
+                                <a href="{% url 'mascota:editar_mascota' mascota.slug %}" class="btn btn-sm btn-warning">Editar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No has publicado ninguna mascota aún.
+        <a href="{% url 'mascota:publicar_mascota' %}" class="alert-link">Publica ahora</a>.
+    </div>
+{% endif %}
+
+<a href="{% url 'mascota:publicar_mascota' %}" class="btn btn-primary mt-3">Publicar nueva mascota</a>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load mascota_filters %}
+{% block title %}Mis Solicitudes de Adopción{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Mis Solicitudes de Adopción</h1>
+
+{% if solicitudes %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Mascota</th>
+                    <th>Fecha de solicitud</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if solicitud.mascota.foto %}
+                                    <img src="{{ solicitud.mascota.foto.url }}" alt="{{ solicitud.mascota.nombre }}" class="me-2 rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary text-white text-center rounded me-2" style="width: 50px; height: 50px;">
+                                        <span class="align-middle">-</span>
+                                    </div>
+                                {% endif %}
+                                <div>{{ solicitud.mascota.nombre }}</div>
+                            </div>
+                        </td>
+                        <td>{{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if solicitud.estado == 'pendiente' %}
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                            {% elif solicitud.estado == 'aprobada' %}
+                                <span class="badge bg-success">Aprobada</span>
+                            {% elif solicitud.estado == 'rechazada' %}
+                                <span class="badge bg-danger">Rechazada</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'mascota:detalle_mascota' solicitud.mascota.pk %}" class="btn btn-sm btn-primary">Ver mascota</a>
+                            {% if solicitud.estado == 'pendiente' %}
+                                <a href="{% url 'mascota:eliminar_solicitud' solicitud.id %}" class="btn btn-sm btn-danger">Cancelar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        No has realizado ninguna solicitud de adopción aún.
+        <a href="{% url 'mascota:lista_mascotas' %}" class="alert-link">Explora las mascotas disponibles</a>.
+    </div>
+{% endif %}
+
+<a href="{% url 'mascota:lista_mascotas' %}" class="btn btn-primary mt-3">Ver mascotas disponibles</a>
+{% endblock %}

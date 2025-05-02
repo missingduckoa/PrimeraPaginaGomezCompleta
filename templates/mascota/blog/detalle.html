@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if articulo %}{{ articulo.titulo }}{% else %}Artículo no encontrado{% endif %} - Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if articulo %}
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                {% if articulo.imagen %}
+                    <img src="{{ articulo.imagen.url }}" class="img-fluid rounded mb-4" alt="{{ articulo.titulo }}">
+                {% endif %}
+                
+                <h1 class="mb-3">{{ articulo.titulo }}</h1>
+                
+                <div class="mb-4">
+                    <span class="text-muted">
+                        Por {{ articulo.autor.get_full_name|default:articulo.autor.username }} | 
+                        {{ articulo.fecha_creacion|date:"d/m/Y" }}
+                    </span>
+                    {% for categoria in articulo.categorias.all %}
+                        <a href="{% url 'mascota:blog_categoria' categoria.slug %}" class="badge bg-primary ms-2">
+                            {{ categoria.nombre }}
+                        </a>
+                    {% endfor %}
+                </div>
+                
+                {% if user.is_authenticated and user == articulo.autor %}
+                    <div class="d-flex justify-content-end mb-4">
+                        <a href="{% url 'mascota:blog_editar' articulo.id %}" class="btn btn-warning me-2">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{% url 'mascota:blog_eliminar' articulo.id %}" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                    </div>
+                {% endif %}
+                
+                <div class="article-content">
+                    {{ articulo.contenido|linebreaks }}
+                </div>
+                
+                <hr class="my-5">
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'mascota:blog_lista' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left"></i> Volver al blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            <h2>Artículo no encontrado</h2>
+            <p>Lo sentimos, el artículo que buscas no existe o ha sido eliminado.</p>
+            <a href="{% url 'mascota:blog_lista' %}" class="btn btn-primary">Volver al blog</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
