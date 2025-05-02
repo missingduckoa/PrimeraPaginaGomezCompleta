@@ -13,8 +13,8 @@ urlpatterns = [
 
     # URLs de mascotas
     path('mascotas/', views.lista_mascotas, name='lista_mascotas'),
-    path('mascotas/<slug:slug>/', views.detalle_mascota, name='detalle_mascota'),
-    path('mascotas/nueva/', views.publicar_mascota, name='publicar_mascota'),
+    path('mascotas/nueva/', views.publicar_mascota, name='publicar_mascota'),  # Ruta específica
+    path('mascotas/<slug:slug>/', views.detalle_mascota, name='detalle_mascota'),  # Ruta general
     path('mascotas/<slug:slug>/editar/', views.editar_mascota, name='editar_mascota'),
     path('mascota/<slug:slug>/reportar/', views.reportar_mascota, name='reportar_mascota'),
 
