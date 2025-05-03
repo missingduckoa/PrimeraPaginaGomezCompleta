@@ -1,5 +1,4 @@
 # PrimeraPaginaGomezCompleta
-# TuPrimeraPagina+Gomez
 
 ## Descripción
 Este es un proyecto web desarrollado en Django que incluye herencia de plantillas, modelos y formularios. Aunque originalmente debía ser un blog (según entendí, esto era opcional), decidí enfocarlo en una página web cuyo objetivo es facilitar la adopción, publicación y solicitud de mascotas.
